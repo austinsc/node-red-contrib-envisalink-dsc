@@ -7,8 +7,6 @@ module.exports = function(RED) {
     const _this = this;
     this.host = config.host;
     this.port = config.port;
-    console.dir(config);
-    console.dir(this);
     config.password = this.password = this.credentials.password;
     config.atomicEvents = false;
     this.connected = false;
