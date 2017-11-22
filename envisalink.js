@@ -154,5 +154,5 @@ EnvisaLink.prototype.sendCommand = function (command) {
   }
   checksum = checksum.toString(16).slice(-2).toUpperCase();
   this.connection.write(command + checksum + '\r\n');
-  _this.emit('log-debug', 'Sending: ' + command + checksum + '\\r\\n');
+  this.emit('log-debug', 'Sending: ' + command + checksum + '\\r\\n');
 };
