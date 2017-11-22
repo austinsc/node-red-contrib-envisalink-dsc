@@ -11,7 +11,7 @@ function EnvisaLink(config) {
     port: config.port,
     password: config.password,
     zones: config.zones,
-    partitions: config.partitions,
+    partitions: config.partitions
   };
 }
 
@@ -60,10 +60,6 @@ EnvisaLink.prototype.connect = function () {
               loginResponse(datapacket);
             }
           }
-
-          if (_this.options.proxyenable) {
-            broadcastresponse(datapacket.substring(0, datapacket.length - 2));
-          }
         }
       }
     }
@@ -76,12 +72,12 @@ EnvisaLink.prototype.connect = function () {
     } else if (loginStatus === '1') {
       _this.emit('connected');
       _this.emit('log-debug', 'Successfully logged in. Requesting current state.');
-      sendCommand(_this.connection, '001');
+      _this.sendCommand('001');
     } else if (loginStatus === '2') {
       _this.emit('log-debug', 'Request for password timed out.');
     } else if (loginStatus === '3') {
       _this.emit('log-debug', 'Login requested. Sending response. ' + _this.options.password);
-      sendCommand(_this.connection, '005' + _this.options.password);
+      _this.sendCommand('005' + _this.options.password);
     }
   }
 
@@ -156,17 +152,6 @@ EnvisaLink.prototype.sendCommand = function (command) {
   for (let i = 0; i < command.length; i++) {
     checksum += command.charCodeAt(i);
   }
-
   checksum = checksum.toString(16).slice(-2).toUpperCase();
   this.connection.write(command + checksum + '\r\n');
 };
-
-function sendCommand(connection, command) {
-  let checksum = 0;
-  for (let i = 0; i < command.length; i++) {
-    checksum += command.charCodeAt(i);
-  }
-
-  checksum = checksum.toString(16).slice(-2);
-  connection.write(command + checksum + '\r\n');
-}
