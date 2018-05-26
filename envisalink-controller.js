@@ -1,6 +1,6 @@
 'use strict';
-const EnvisaLink = require('./envisalink.js');
-
+// const EnvisaLink = require('./envisalink.js');
+const EnvisaLink = require('nodealarmproxy');
 module.exports = function(RED) {
   function EnvisaLinkControllerNode(config) {
     RED.nodes.createNode(this, config);
@@ -12,7 +12,7 @@ module.exports = function(RED) {
     this.connected = false;
     this.connecting = false;
 
-    this.el = new EnvisaLink(config);
+    this.el = EnvisaLink.initConfig(config); // new EnvisaLink(config);
 
     this.users = {};
 
